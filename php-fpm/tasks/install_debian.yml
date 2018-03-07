@@ -1,16 +1,33 @@
 ---
 - name: Install PHP
   apt:
+    name: php5-cli
+    state: present
+
+- name: Install PHP 7
+  apt:
     name: php-cli
     state: present
+  when: ansible_distribution_release == 'xenial'
 
 - name: Install PHP5-FPM
   apt:
+    name: php5-fpm
+    state: present
+
+- name: Install PHP-FPM
+  apt:
     name: php-fpm
     state: present
+  when: ansible_distribution_release == 'xenial'
 
 - name: Include Debian Vars
   include_vars: Debian.yml
+  when: ansible_distribution_release == 'trusty'
+
+- name: Include Debian Vars 1604
+  include_vars: Debian1604.yml
+  when: ansible_distribution_release == 'xenial'
 
 - name: Install other packages
   apt:
@@ -26,7 +43,17 @@
   failed_when: "'No valid packages found' in pecl_result.stdout"
 
 - name: Enable PHP modules
+  shell: 'php5enmod {{ item }}'
+  with_items: '{{ phpfpm_modules_enable }}'
+
+- name: Enable PHP modules 1604
   shell: 'phpenmod {{ item }}'
+  with_items: '{{ phpfpm_modules_enable }}'
+
+- name: Enable PHP modules
+  copy:
+    src: '/etc/php5/mods-available/{{ item }}.ini'
+    dest: '/etc/php5/fpm/conf.d/{{ item }}.ini'
   with_items: '{{ phpfpm_modules_enable }}'
 
 - name: Enable PHP modules
@@ -34,3 +61,4 @@
     src: '/etc/php/7.0/mods-available/{{ item }}.ini'
     dest: '/etc/php/7.0/fpm/conf.d/{{ item }}.ini'
   with_items: '{{ phpfpm_modules_enable }}'
+  when: ansible_distribution_release == 'xenial'
