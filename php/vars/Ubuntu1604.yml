@@ -1,0 +1,31 @@
+---
+php_modules:
+  - libapache2-mod-php5
+  - php
+  - php-fpm
+  - php-dev
+  - php-imap
+  - php-gd
+  - php-mysql
+  - php-mcrypt
+  - php-xmlrpc
+
+php_modules_pecl:
+  - lzf
+  - redis-2.2.8.tar
+  - memcache
+  - zendopcache-7.0.4
+
+php_modules_config:
+  - src: php.ini.j2
+    dest: '/etc/php.ini'
+  - src: opcache.ini.j2
+    dest: "{{ php_modules_config_root }}/opcache.ini"
+  - src: redis.ini.j2
+    dest: "{{ php_modules_config_root }}/redis.ini' }"
+
+php_modules_config_root: '/etc/php/7.0/mods-available'
+
+php_modules_enable:
+  - mcrypt
+  - redis
