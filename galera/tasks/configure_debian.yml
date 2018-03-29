@@ -1,9 +1,4 @@
 ---
-- name: Start MySQL
-  service:
-    name: mysql
-    state: started
-
 - name: Ensure /etc/mysql/ exists
   file:
     path: '/etc/mysql'
@@ -66,10 +61,7 @@
   ignore_errors: yes
 
 - name: Start Galera (Master)
-  service:
-    name: mysql
-    state: started
-    args: '--wsrep-new-cluster'
+  shell: galera_new_cluster
   when: galera_role == 'master'
 
 - name: Start Galera (Secondary)
