@@ -1,6 +1,6 @@
 ---
 - name: Install Drush
-  shell: 'composer global require drush/drush:7.*'
+  shell: 'composer global require drush/drush:9.*'
   environment:
     COMPOSER_HOME: '/usr/share/composer'
 
