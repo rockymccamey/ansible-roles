@@ -10,8 +10,18 @@
     path: '/usr/local/bin/drush'
     state: link
 
+- name: Install php-zip
+  apt:
+    name: php-zip
+    update_cache: yes
+
+- name: Install php-mbstring
+  apt:
+    name: php-mbstring
+    update_cache: yes
+
 - name: Download Drupal
-  shell: 'drush dl drupal --drupal-project-rename=httpdocs -y'
+  shell: 'composer create-project drupal-composer/drupal-project:8.x-dev httpdocs --stability dev --no-interaction'
   args:
     chdir: '{{ nginx_vhost_root }}/{{ drupal_domain }}'
 

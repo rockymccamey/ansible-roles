@@ -3,7 +3,7 @@ phpfpm_config: [
 { src: 'Common/php-fpm.conf.j2', dest: '/etc/php-fpm.conf' },
 { src: 'Common/www.conf.j2', dest: '{{ phpfpm_root }}/pool.d/www.conf' },
 { src: 'php.ini.j2', dest: '/etc/php.ini' },
-{ src: 'opcache.ini.j2', dest: '{{ phpfpm_modules_config_root }}/opcache.ini' },
+{ src: 'opcache1604.ini.j2', dest: '{{ phpfpm_modules_config_root }}/opcache.ini' },
 { src: 'redis.ini.j2', dest: '{{ phpfpm_modules_config_root }}/redis.ini' }
 ]
 
