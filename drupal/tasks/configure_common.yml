@@ -3,6 +3,13 @@
   shell: 'composer global require drush/drush:9.*'
   environment:
     COMPOSER_HOME: '/usr/share/composer'
+  when: ansible_distribution_release == 'xenial'
+
+- name: Install Drush
+  shell: 'composer global require drush/drush:8.*'
+  environment:
+    COMPOSER_HOME: '/usr/share/composer'
+  when: ansible_distribution_release == 'trusty'
 
 - name: Link Drush to /usr/local/bin/drush
   file:
@@ -14,11 +21,13 @@
   apt:
     name: php-zip
     update_cache: yes
+  when: ansible_distribution == 'Debian' or ansible_distribution == 'Ubuntu'
 
 - name: Install php-mbstring
   apt:
     name: php-mbstring
     update_cache: yes
+  when: ansible_distribution == 'Debian' or ansible_distribution == 'Ubuntu'
 
 - name: Download Drupal
   shell: 'composer create-project drupal-composer/drupal-project:8.x-dev httpdocs --stability dev --no-interaction'
