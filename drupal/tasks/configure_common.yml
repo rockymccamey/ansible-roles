@@ -31,10 +31,9 @@
     --db-url='mysql://{{ drupal_db_user }}:{{ drupal_db_password }}@{{ drupal_db_host }}/{{ drupal_db_name}}'
     --site-name={{ drupal_domain }}
     --account-name={{ drupal_user }}
-    --account-pass={{ drupal_password }}
-    --clean-url=0"
+    --account-pass={{ drupal_password }}"
   args:
-    chdir: '{{ drupal_docroot }}'
+    chdir: '{{ nginx_vhost_root }}/{{ drupal_domain }}/httpdocs'
 
 - name: Enforce permissions
   file:
