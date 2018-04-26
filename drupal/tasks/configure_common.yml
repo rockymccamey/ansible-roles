@@ -17,17 +17,25 @@
     path: '/usr/local/bin/drush'
     state: link
 
-- name: Install php-zip
+- name: Install required packages
   apt:
-    name: php-zip
+    name="{{item}}"
+    state: installed
     update_cache: yes
-  when: ansible_distribution == 'Debian' or ansible_distribution == 'Ubuntu'
+    with_items:
+      - php5-zip
+      - php5-mbstring
+  when: ansible_distribution_release == 'trusty'
 
 - name: Install php-mbstring
   apt:
-    name: php-mbstring
+    name="{{item}}"
+    state: installed
     update_cache: yes
-  when: ansible_distribution == 'Debian' or ansible_distribution == 'Ubuntu'
+    with_items:
+      - php-zip
+      - php-mbstring
+  when: ansible_distribution_release == 'xenial'
 
 - name: Download Drupal
   shell: 'composer create-project drupal-composer/drupal-project:8.x-dev httpdocs --stability dev --no-interaction'
