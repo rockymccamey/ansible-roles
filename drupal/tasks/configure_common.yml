@@ -17,30 +17,24 @@
     path: '/usr/local/bin/drush'
     state: link
 
-- name: Install required packages
-  apt:
-    name="{{item}}"
-    state: installed
-    update_cache: yes
-    with_items:
-      - php5-zip
-      - php5-mbstring
-  when: ansible_distribution_release == 'trusty'
-
 - name: Install php-mbstring
-  apt:
-    name="{{item}}"
-    state: installed
-    update_cache: yes
-    with_items:
-      - php-zip
-      - php-mbstring
+  apt: name="{{item}}" state=installed update_cache=yes
+  with_items:
+       - php-zip
+       - php-mbstring
   when: ansible_distribution_release == 'xenial'
 
 - name: Download Drupal
   shell: 'composer create-project drupal-composer/drupal-project:8.x-dev httpdocs --stability dev --no-interaction'
   args:
     chdir: '{{ nginx_vhost_root }}/{{ drupal_domain }}'
+  when: ansible_distribution_release == 'xenial'
+
+- name: Download Drupal
+  shell: 'composer create-project drupal-composer/drupal-project:7.x-dev httpdocs --stability dev --no-interaction'
+  args:
+    chdir: '{{ nginx_vhost_root }}/{{ drupal_domain }}'
+  when: ansible_distribution_release == 'trusty'
 
 - name: Install Drupal
   shell:
@@ -51,6 +45,18 @@
     --account-pass={{ drupal_password }}"
   args:
     chdir: '{{ nginx_vhost_root }}/{{ drupal_domain }}/httpdocs'
+  when: ansible_distribution_release == 'xenial'
+
+- name: Install Drupal
+  shell:
+    "drush --yes site-install standard
+    --db-url='mysql://{{ drupal_db_user }}:{{ drupal_db_password }}@{{ drupal_db_host }}/{{ drupal_db_name}}'
+    --site-name={{ drupal_domain }}
+    --account-name={{ drupal_user }}
+    --account-pass={{ drupal_password }}"
+  args:
+    chdir: '{{ nginx_vhost_root }}/{{ drupal_domain }}/httpdocs/web/sites/default'
+  when: ansible_distribution_release == 'trusty'
 
 - name: Enforce permissions
   file:
