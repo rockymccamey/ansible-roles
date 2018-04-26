@@ -25,13 +25,13 @@
   when: ansible_distribution_release == 'xenial'
 
 - name: Download Drupal
-  shell: '. /root/.bashrc && composer create-project drupal-composer/drupal-project:8.x-dev httpdocs --stability dev --no-interaction'
+  shell: . /root/.bashrc && composer create-project drupal-composer/drupal-project:8.x-dev httpdocs --stability dev --no-interaction
   args:
     chdir: '{{ nginx_vhost_root }}/{{ drupal_domain }}'
   when: ansible_distribution_release == 'xenial'
 
 - name: Download Drupal
-  shell: '. /root/.bashrc && composer create-project drupal-composer/drupal-project:7.x-dev httpdocs --stability dev --no-interaction'
+  shell: . /root/.bashrc && composer create-project drupal-composer/drupal-project:7.x-dev httpdocs --stability dev --no-interaction
   args:
     chdir: '{{ nginx_vhost_root }}/{{ drupal_domain }}'
   when: ansible_distribution_release == 'trusty' or ansible_distribution == 'CentOS'
