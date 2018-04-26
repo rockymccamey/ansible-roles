@@ -9,7 +9,7 @@
   shell: 'composer global require drush/drush:8.*'
   environment:
     COMPOSER_HOME: '/usr/share/composer'
-  when: ansible_distribution_release == 'trusty'
+  when: ansible_distribution_release == 'trusty' or ansible_distribution == 'CentOS'
 
 - name: Link Drush to /usr/local/bin/drush
   file:
@@ -34,7 +34,7 @@
   shell: 'composer create-project drupal-composer/drupal-project:7.x-dev httpdocs --stability dev --no-interaction'
   args:
     chdir: '{{ nginx_vhost_root }}/{{ drupal_domain }}'
-  when: ansible_distribution_release == 'trusty'
+  when: ansible_distribution_release == 'trusty' or ansible_distribution == 'CentOS'
 
 - name: Install Drupal
   shell:
@@ -56,7 +56,7 @@
     --account-pass={{ drupal_password }}"
   args:
     chdir: '{{ nginx_vhost_root }}/{{ drupal_domain }}/httpdocs/web/sites/default'
-  when: ansible_distribution_release == 'trusty'
+  when: ansible_distribution_release == 'trusty' or ansible_distribution == 'CentOS'
 
 - name: Enforce permissions
   file:
