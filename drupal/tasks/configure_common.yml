@@ -25,15 +25,19 @@
   when: ansible_distribution_release == 'xenial'
 
 - name: Download Drupal
-  shell: . /root/.bashrc && composer create-project drupal-composer/drupal-project:8.x-dev httpdocs --stability dev --no-interaction
+  shell: composer create-project drupal-composer/drupal-project:8.x-dev httpdocs --stability dev --no-interaction
   args:
     chdir: '{{ nginx_vhost_root }}/{{ drupal_domain }}'
+  environment:
+    HOME: "/root"
   when: ansible_distribution_release == 'xenial'
 
 - name: Download Drupal
-  shell: . /root/.bashrc && composer create-project drupal-composer/drupal-project:7.x-dev httpdocs --stability dev --no-interaction
+  shell: composer create-project drupal-composer/drupal-project:7.x-dev httpdocs --stability dev --no-interaction
   args:
     chdir: '{{ nginx_vhost_root }}/{{ drupal_domain }}'
+  environment:
+    HOME: "/root"
   when: ansible_distribution_release == 'trusty' or ansible_distribution == 'CentOS'
 
 - name: Install Drupal
@@ -45,6 +49,8 @@
     --account-pass={{ drupal_password }}"
   args:
     chdir: '{{ nginx_vhost_root }}/{{ drupal_domain }}/httpdocs'
+  environment:
+    HOME: "/root"
   when: ansible_distribution_release == 'xenial'
 
 - name: Install Drupal
@@ -56,6 +62,8 @@
     --account-pass={{ drupal_password }}"
   args:
     chdir: '{{ nginx_vhost_root }}/{{ drupal_domain }}/httpdocs/web/sites/default'
+  environment:
+    HOME: "/root"
   when: ansible_distribution_release == 'trusty' or ansible_distribution == 'CentOS'
 
 - name: Enforce permissions
