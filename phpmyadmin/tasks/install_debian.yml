@@ -24,3 +24,10 @@
     name: phpmyadmin
     state: import
     target: /usr/share/doc/phpmyadmin/examples/create_tables.sql
+
+- name: set permissions on config
+  file: 
+    path: /etc/phpmyadmin/config.inc.php
+    owner: root
+    group: root
+    mode: 0644

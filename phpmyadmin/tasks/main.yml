@@ -9,5 +9,5 @@
   template:
     src: "Common/config.inc.php.j2"
     dest: "{{ phpmyadmin_config }}"
-    mode: 654
+    mode: 0644
   when: phpmyadmin_install == 'True'
