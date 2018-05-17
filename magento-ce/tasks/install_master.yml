@@ -200,3 +200,32 @@
     dest: '{{ magento_document_root }}/app/etc/remote_addr_headers.xml'
     owner: '{{ magento_sftp_user }}'
     group: '{{ nginx_vhost_user }}'
+
+- name: Enable Redis
+  blockinfile:
+    path: "{{ magento_document_root }}/app/etc/local.xml"
+    insertafter: "</resources>"
+    block: |2
+              <cache>
+          <backend>Mage_Cache_Backend_Redis</backend>
+          <backend_options>
+            <server>127.0.0.1</server>              <!-- or absolute path to unix socket -->
+            <port>6379</port>
+            <persistent></persistent>               <!-- Specify a unique string like "cache-db0" to enable persistent connections. -->
+            <database>0</database>
+            <password></password>
+            <force_standalone>0</force_standalone>  <!-- 0 for phpredis, 1 for standalone PHP -->
+            <connect_retries>1</connect_retries>    <!-- Reduces errors due to random connection failures -->
+            <read_timeout>10</read_timeout>         <!-- Set read timeout duration -->
+            <automatic_cleaning_factor>0</automatic_cleaning_factor> <!-- Disabled by default -->
+            <compress_data>1</compress_data>        <!-- 0-9 for compression level, recommended: 0 or 1 -->
+            <compress_tags>1</compress_tags>        <!-- 0-9 for compression level, recommended: 0 or 1 -->
+            <compress_threshold>20480</compress_threshold>  <!-- Strings below this size will not be compressed -->
+            <compression_lib>gzip</compression_lib> <!-- Supports gzip, lzf and snappy -->
+          </backend_options>
+        </cache>
+
+- name: Start Redis
+  service:
+    name: redis-server
+    state: started
