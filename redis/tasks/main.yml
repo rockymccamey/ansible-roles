@@ -6,9 +6,3 @@
   when: ansible_os_family == 'RedHat'
 
 - include: configure_common.yml
-
-- include: configure_debian.yml
-  when: ansible_distribution_release == 'trusty'
-
-- include: configure_redhat.yml
-  when: ansible_os_family == 'RedHat'

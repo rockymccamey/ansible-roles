@@ -1,4 +1,4 @@
 ---
 - name: restart redis
   service: state=restarted name=redis-{{item.name}} enabled=yes
-  with_items: redis_instances
+  with_items: "{{ redis_instances }}"
