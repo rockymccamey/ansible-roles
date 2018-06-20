@@ -51,4 +51,3 @@
     - mariadb-server
     - python-mysqldb
   when: ansible_os_family == 'Debian'
-

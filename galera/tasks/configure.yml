@@ -84,4 +84,3 @@
     - "{{ galera_users }}"
     - hosts
   when: galera_role == 'master'
-
