@@ -55,6 +55,11 @@
   notify:
     - Restart Apache
 
+- name: Remove mpm_event symlink
+  shell: rm /etc/apache2/mods-enabled/event.{conf,load}
+  args:
+    executable: /bin/bash
+
 - name: Enable modules
   command: 'a2enmod {{ item }}'
   with_items: "{{ apache_modules }}"
