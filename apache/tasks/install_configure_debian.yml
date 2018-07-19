@@ -56,7 +56,7 @@
     - Restart Apache
 
 - name: Remove mpm_event symlink
-  shell: rm /etc/apache2/mods-enabled/event.{conf,load}
+  shell: rm /etc/apache2/mods-enabled/mpm_event.{conf,load}
   args:
     executable: /bin/bash
 
