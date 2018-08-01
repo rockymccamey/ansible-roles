@@ -7,7 +7,6 @@ php_modules:
   - php-imap
   - php-gd
   - php-mysql
-  - php-mcrypt
   - php-xmlrpc
 
 php_modules_pecl:
@@ -26,5 +25,4 @@ php_modules_config:
 php_modules_config_root: '/etc/php/7.0/mods-available'
 
 php_modules_enable:
-  - mcrypt
   - redis
