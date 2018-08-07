@@ -7,6 +7,10 @@
   include_vars: Ubuntu1604.yml
   when: ansible_distribution_release == 'xenial'
 
+- name: Include Debian Vars
+  include_vars: Ubuntu1804.yml
+  when: ansible_distribution_release == 'bionic'
+
 - name: Install PHP packages
   apt:
     name: "{{ item }}"

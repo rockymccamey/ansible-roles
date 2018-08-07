@@ -22,7 +22,7 @@ php_modules_config:
   - src: redis.ini.j2
     dest: "{{ php_modules_config_root }}/redis.ini' }"
 
-php_modules_config_root: '/etc/php/*/mods-available'
+php_modules_config_root: '/etc/php/7.2/mods-available'
 
 php_modules_enable:
   - redis
