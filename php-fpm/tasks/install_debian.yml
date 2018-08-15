@@ -9,7 +9,7 @@
   apt:
     name: php-cli
     state: present
-  when: ansible_distribution_release == 'xenial'
+  when: ansible_distribution_release == 'xenial' or ansible_distribution_release == 'bionic'
 
 - name: Install PHP5-FPM
   apt:
@@ -21,7 +21,7 @@
   apt:
     name: php-fpm
     state: present
-  when: ansible_distribution_release == 'xenial'
+  when: ansible_distribution_release == 'xenial' or ansible_distribution_release == 'bionic'
 
 - name: Include Debian Vars
   include_vars: Debian.yml
@@ -29,7 +29,11 @@
 
 - name: Include Debian Vars 1604
   include_vars: Debian1604.yml
-  when: ansible_distribution_release == 'xenial'
+  when: ansible_distribution_release == 'xenial' or ansible_distribution_release == 'bionic'
+
+- name: Include Ubuntu vars 1804
+  include_vars: Ubuntu1804.yml
+  when: ansible_distribution_release == 'bionic'
 
 - name: Install other packages
   apt:
@@ -52,7 +56,7 @@
 - name: Enable PHP modules 1604
   shell: 'phpenmod {{ item }}'
   with_items: '{{ phpfpm_modules_enable }}'
-  when: ansible_distribution_release == 'xenial'
+  when: ansible_distribution_release == 'xenial' or ansible_distribution_release == 'bionic'
 
 - name: Enable PHP modules
   copy:
@@ -67,3 +71,10 @@
     dest: '/etc/php/7.0/fpm/conf.d/{{ item }}.ini'
   with_items: '{{ phpfpm_modules_enable }}'
   when: ansible_distribution_release == 'xenial'
+
+- name: Enable PHP modules
+  copy:
+    src: '/etc/php/7.2/mods-available/{{ item }}.ini'
+    dest: '/etc/php/7.2/fpm/conf.d/{{ item }}.ini'
+  with_items: '{{ phpfpm_modules_enable }}'
+  when: ansible_distribution_release == 'bionic'
