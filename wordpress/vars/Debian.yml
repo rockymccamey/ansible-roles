@@ -1,4 +1,6 @@
 ---
 wordpress_dependencies: [
-'curl'
+'curl',
+'mariadb-client',
+'python-mysqldb'
 ]
