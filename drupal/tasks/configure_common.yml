@@ -22,6 +22,8 @@
   with_items:
        - php-zip
        - php-mbstring
+       - mariadb-client
+       - python-mysqldb
   when: ansible_distribution_release == 'xenial' or ansible_distribution_release == 'bionic'
 
 - name: Download Drupal
