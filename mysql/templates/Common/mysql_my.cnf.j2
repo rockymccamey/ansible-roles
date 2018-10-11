@@ -30,7 +30,11 @@ tmpdir = /tmp
 socket = {{ mysql_socket }}
 skip-external-locking = 1
 log_error = {{ mysql_log_error }}
+{% if ansible_distribution_release == 'xenial' or ansible_distribution_release == 'bionic'%}
+bind-address = 0.0.0.0
+{% else %}
 bind-addr = 0.0.0.0
+{% endif %}
 {% if mysql_role == 'master' %}
 sync_binlog = 1
 binlog-format = mixed
