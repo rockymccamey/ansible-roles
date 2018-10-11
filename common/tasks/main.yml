@@ -1,7 +1,7 @@
 ---
 - include: "{{ items }}"
   with_first_found:
-    - "install-{{ ansible_os_family|lower }}.yml"
+    - "install_{{ ansible_os_family|lower }}.yml"
     - "default.yml"
     
 - name: Enable NTPD
