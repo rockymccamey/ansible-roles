@@ -1,7 +1,7 @@
 ---
 common_packages:
-  - ufw
-  - vim
+  - libselinux-python
+  - epel-release
   - ntp
 
 ntp_service: ntp
