@@ -1,8 +1,25 @@
 ---
-- include: "{{ items }}"
+- include_vars: "{{ items }}"
   with_first_found:
-    - "install_{{ ansible_os_family|lower }}.yml"
+    - "{{ ansible_distribution }}-{{ ansible_distribution_major_version }}.yml"
+    - "{{ ansible_os_family }}.yml"
     - "default.yml"
+
+- name: Install packages for Debian systems
+  apt:
+    pkg: "{{ item }}"
+    state: present
+    update_cache: yes
+  with_items: "{{ common_packages }}"
+  when: ansible_os_family == "Debian"
+
+- name: Install packages Redhat systems
+  yum:
+    pkg: "{{ item }}"
+    state: present
+  with_items: "{{ common_packages }}"
+  when: ansible_os_family == "Redhat"
+
     
 - name: Enable NTPD
   service:

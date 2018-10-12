@@ -1,0 +1,7 @@
+---
+common_packages:
+  - python-selinux
+  - vim
+  - ntp
+
+ntp_service: ntp
