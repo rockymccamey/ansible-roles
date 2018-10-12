@@ -1,1 +1,14 @@
+---
+- name: Install packages
+  apt:
+    pkg: "{{ item }}"
+    state: present
+    update_cache: yes
+  with_items:
+    - python-selinux
+    - vim
+    - ntp
 
+- name: Set NTP Service Fact
+  set_fact:
+    ntp_service: ntp
