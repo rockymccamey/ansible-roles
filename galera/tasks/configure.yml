@@ -21,8 +21,9 @@
 
 - name: Set Root Password
   mysql_user:
-    name: root
-    password: "{{ galera_root_password }}"
+    user: root
+    login_user: root
+    login_password: "{{ galera_root_password }}"
   when: not galera_configured.stat.exists
 
 - name: Configure .my.cnf
@@ -71,7 +72,7 @@
   mysql_db:
     name: "{{ item }}"
     state: present
-  with_items: galera_dbs
+  with_items: "{{ galera_default_database }}"
   when: galera_role == 'master'
 
 - name: Create Galera Users on Master
