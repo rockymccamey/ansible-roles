@@ -23,7 +23,6 @@
   mysql_user:
     user: root
     login_user: root
-    login_password: "{{ galera_root_password }}"
   when: not galera_configured.stat.exists
 
 - name: Configure .my.cnf
