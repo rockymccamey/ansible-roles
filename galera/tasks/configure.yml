@@ -22,13 +22,7 @@
 - name: Set Root Password
   mysql_user:
     user: root
-    login_user: root
   when: not galera_configured.stat.exists
-
-- name: Configure .my.cnf
-  template:
-    src: '.my.cnf.j2'
-    dest: '/root/.my.cnf'
 
 - name: Create .configured file
   file:
