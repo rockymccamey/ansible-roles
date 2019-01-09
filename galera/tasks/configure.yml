@@ -22,6 +22,7 @@
 - name: Set Root Password
   mysql_user:
     user: root
+    password: "{{ galera_root_password }}"
   when: not galera_configured.stat.exists
 
 - name: Create .configured file
