@@ -1,7 +1,0 @@
----
-common_packages:
-  - libselinux-python
-  - epel-release
-  - ntp
-
-ntp_service: ntp
