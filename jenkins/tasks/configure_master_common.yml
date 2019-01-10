@@ -1,4 +1,13 @@
 ---
+- name: init password jenkin
+  shell: cat /var/lib/jenkins/secrets/initialAdminPassword
+  changed_when: false
+  register: result
+
+- name: print init password jenkins
+  debug:
+    var: result.stdout
+
 - name: Copy /etc/default/jenkins
   template:
     src: 'Common/jenkins.j2'
@@ -52,14 +61,6 @@
 - name: Wait for Jenkins to initialize
   wait_for:
     timeout: 30
-- name: init password jenkin
-  shell: cat /var/lib/jenkins/secrets/initialAdminPassword
-  changed_when: false
-  register: result
-
-- name: print init password jenkins
-  debug:
-    var: result.stdout
 
 - name: Install Jenkins Plugins
   shell:
