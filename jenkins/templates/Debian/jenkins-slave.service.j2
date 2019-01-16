@@ -1,0 +1,14 @@
+[Unit]
+Description=Jenkins Slave
+Wants=network.target
+After=network.target
+
+[Service]
+ExecStart=/usr/bin/java -jar swarm.jar -autoDiscoveryAddress {{ jenkins_ip }} -username swarm -password {{ swarm_password }}
+User=jenkins
+Restart=always
+RestartSec=10
+StartLimitInterval=0
+
+[Install]
+WantedBy=multi-user.target
