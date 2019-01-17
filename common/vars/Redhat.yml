@@ -4,4 +4,4 @@ common_packages:
   - epel-release
   - ntp
 
-ntp_service: ntp
+ntp_service: ntpd

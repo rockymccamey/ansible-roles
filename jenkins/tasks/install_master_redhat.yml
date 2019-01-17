@@ -29,6 +29,15 @@
     name: jenkins
     state: present
 
+- name: Start Jenkins
+  service:
+    name: jenkins
+    state: started
+
+- name: Wait for Jenkins to initialize
+  wait_for:
+    timeout: 60
+
 # - name: Install Jenkins
 #   yum:
 #     name: '{{ jenkins_rpm }}'
