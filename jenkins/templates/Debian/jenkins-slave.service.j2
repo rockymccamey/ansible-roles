@@ -4,7 +4,7 @@ Wants=network.target
 After=network.target
 
 [Service]
-ExecStart=/usr/bin/java -jar swarm.jar -autoDiscoveryAddress {{ jenkins_ip }} -username swarm -password {{ swarm_password }}
+ExecStart=/usr/bin/java -jar /home/jenkins/swarm.jar -autoDiscoveryAddress {{ jenkins_ip }} -username swarm -password {{ swarm_password }}
 User=jenkins
 Restart=always
 RestartSec=10
