@@ -71,6 +71,10 @@
   shell: |
     echo 'jenkins.model.Jenkins.instance.securityRealm.createAccount("swarm", "{{ swarm_password }}")' | java -jar {{ jenkins_cli }} -s {{ jenkins_url }} -auth admin:"{{ result.stdout }}" groovy =  
 
+- name: Configure admin user
+  shell: |
+    echo 'jenkins.model.Jenkins.instance.securityRealm.createAccount("admin", "{{ jenkins_admin_pass }}")' | java -jar {{ jenkins_cli }} -s {{ jenkins_url }} -auth admin:"{{ result.stdout }}" groovy =
+
 - name: Restart Jenkins
   service:
     name: jenkins
