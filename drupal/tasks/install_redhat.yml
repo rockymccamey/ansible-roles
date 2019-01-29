@@ -1,0 +1,6 @@
+---
+- name: Install db packages
+  yum: name={{item}} state=installed
+  with_items:
+       - mariadb
+       - MySQL-python
