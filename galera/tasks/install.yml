@@ -2,7 +2,7 @@
 # RedHat Install
 - name: Add MariaDB Repository
   template:
-    src: 'mariadb.repo.j2'
+    src: '/etc/ansible/roles/galera/templates/RedHat/mariadb.repo.j2'
     dest: '/etc/yum.repos.d/mariadb.repo'
   when: ansible_os_family == 'RedHat'
 
