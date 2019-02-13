@@ -10,6 +10,9 @@
        - php-mbstring
        - php-zip
 
+- name: Set repo.magento.com composer keys
+  shell: 'composer config --global http-basic.repo.magento.com  b2f5cba61c010a8eb9e563dc7f031db2 842ab5320d751c878cdc488f3e5ddf6a' 
+
 - name: download magento with composer
   shell: 'composer create-project --repository=https://repo.magento.com/ magento/project-community-edition {{ magento_document_root }}'
   environment:
