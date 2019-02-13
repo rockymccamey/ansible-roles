@@ -12,13 +12,13 @@
 
 - name: download magento with composer
   shell: 'composer create-project --repository=https://repo.magento.com/ magento/project-community-edition {{ magento_document_root }}'
+  environment:
+    HOME: "/root"
 
 - name: Run Magento Installer
   command: 'php bin/magento setup:install --language="en_US" --timezone="{{ tz }}" --db-host={{ mysql_host_ipi }} --db-name={{ magento_db_name }} --db-user={{ magento_db_user }} --db-password={{ magento_db_password }} --base-url=http://{{ magento_vhost_domain }}  --use_rewrites="1"  --admin-firstname={{ magento_admin_fname }} --admin-lastname={{ magento_admin_lname }} --admin-email={{ magento_admin_email }} --admin-username={{ magento_admin_user }} --admin-password={{ magento_admin_pass }} --currency=USD'
   args:
     chdir: "{{ magento_document_root }}"
-  environment:
-    HOME: "/root"
 
 - name: Configure File Level Permissions
   command: 'find . -type f -exec chmod 644 {} ";"'
