@@ -103,8 +103,50 @@
   register: file_perm_change
   changed_when: file_perm_change.stdout
 
+- name: Configure Directory Level Permissions for var
+  command: 'find ./var -type d -exec chmod 777 {} ";"'
+  args:
+    chdir: '{{ magento_document_root }}'
+  register: file_perm_change
+  changed_when: file_perm_change.stdout
+
+- name: Configure Directory Level Permissions for media
+  command: 'find ./pub/media -type d -exec chmod 777 {} ";"'
+  args:
+    chdir: '{{ magento_document_root }}'
+  register: file_perm_change
+  changed_when: file_perm_change.stdout
+
+- name: Configure Directory Level Permissions for static
+  command: 'find ./pub/media -type d -exec chmod 777 {} ";"'
+  args:
+    chdir: '{{ magento_document_root }}'
+  register: file_perm_change
+  changed_when: file_perm_change.stdout
+
+- name: Configure Directory Level Permissions for static
+  command: 'chmod 777 ./app/etc'
+  args:
+    chdir: '{{ magento_document_root }}'
+  register: file_perm_change
+  changed_when: file_perm_change.stdout
+
+- name: Configure Directory Level Permissions for static
+  command: 'chmod 644 ./app/etc/*.xml'
+  args:
+    chdir: '{{ magento_document_root }}'
+  register: file_perm_change
+  changed_when: file_perm_change.stdout
+
 - name: Configure File and Directory Ownership
   command: 'chown -R {{ magento_sftp_user }}:www-data {{ magento_document_root }}'
+  args:
+    chdir: '{{ magento_document_root }}'
+  register: file_perm_change
+  changed_when: file_perm_change.stdout
+
+- name: Configure Directory Level Permissions for static
+  command: 'chmod u+x bin/magento'
   args:
     chdir: '{{ magento_document_root }}'
   register: file_perm_change
