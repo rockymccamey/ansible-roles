@@ -40,8 +40,8 @@
 
 - name: Create symbolic link 
   file:
-    src: "/etc/nginx/sites-enabled"
-    dest: "/etc/nginx/sites-available/{{ magento_vhost_domain }}"
+    src: "/etc/nginx/sites-available/{{ magento_vhost_domain }}"
+    dest: "/etc/nginx/sites-enabled"
     state: link
 
 - name: Start service nginx, if not started
