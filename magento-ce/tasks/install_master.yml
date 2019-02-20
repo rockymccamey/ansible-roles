@@ -15,6 +15,24 @@
        - php-mysql
        - nginx
 
+- name: Download Composer Installer
+  get_url:
+    url: 'https://getcomposer.org/installer'
+    dest: '/tmp/composer'
+
+- name: Install Composer
+  shell: 'cat /tmp/composer | php'
+  args:
+    chdir: '/tmp'
+  environment:
+    HOME: '/root'
+
+- name: Move Composer to /usr/local/bin
+  copy:
+    src: '/tmp/composer.phar'
+    dest: '/usr/local/bin/composer'
+    mode: '0755'
+
 - name: move over nginx vhost config
   template:
     src: Common/vhost.conf.j2
