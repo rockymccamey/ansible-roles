@@ -25,7 +25,7 @@
     state: directory
     mode: 0755
     owner: '{{ magento_sftp_user }}'
-    group: '{{ nginx_vhost_user }}'
+    group: 'www-data'
 
 - name: Configure LogRotate
   template:
