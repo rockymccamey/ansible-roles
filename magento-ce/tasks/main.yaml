@@ -17,10 +17,10 @@
     magento_sample_content: 'no'
   when: magento_reach_dropdown == 'Don\'t install Magento. I will upload an existing Magento site (see instructions)'
 
-- include: configure_common.yml
-
 - include: install_master.yml
   when: magento_role == 'master'
+
+- include: configure_common.yml
 
 - include: install_custom.yml
   when: magento_role == 'custom'
