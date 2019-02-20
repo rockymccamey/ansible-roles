@@ -79,6 +79,16 @@
   args:
     chdir: "{{ magento_document_root }}"
 
+- name: Ensure Magento User exists
+  user:
+    name: '{{ magento_sftp_user }}'
+    uid: '{{ magento_sftp_user_id }}'
+    home: '{{ magento_sftp_user_home }}'
+    password: '{{ magento_sftp_password|password_hash("sha512") }}'
+    shell: '/bin/bash'
+    update_password: always
+    state: present
+
 - name: Configure File Level Permissions
   command: 'find . -type f -exec chmod 644 {} ";"'
   args:
