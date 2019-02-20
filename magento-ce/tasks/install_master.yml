@@ -2,6 +2,7 @@
 - name: Install list of packages
   apt: name={{item}} state=installed
   with_items:
+       - php-fpm
        - php-gd
        - php-dom
        - php-mcrypt
@@ -11,6 +12,39 @@
        - php-zip
        - php-bcmath
        - php-soap
+       - php-mysql
+       - nginx
+
+- name: move over nginx vhost config
+  template:
+    src: Common/vhost.conf.j2
+    dest: /etc/nginx/sites-available/{{ magento_vhost_domain }}
+
+- name: Create symbolic link 
+  file:
+    src: "/etc/nginx/sites-enabled"
+    dest: "/etc/nginx/sites-available/{{ magento_vhost_domain }}"
+    state: link
+
+- name: Start service nginx, if not started
+  service:
+    name: nginx
+    state: started
+
+- name: move over php.ini's
+  template:
+    src: Common/php.ini.j2
+    dest: /etc/php/7.0/fpm
+
+- name: move over php.ini's
+  template:
+    src: Common/php.ini.j2
+    dest: /etc/php/7.0/cli
+
+- name: Start service php-fpm, if not started
+  service:
+    name: php7.0-fpm
+    state: started
 
 - name: Set repo.magento.com composer keys
   shell: 'composer config --global http-basic.repo.magento.com  b2f5cba61c010a8eb9e563dc7f031db2 842ab5320d751c878cdc488f3e5ddf6a'
@@ -42,7 +76,7 @@
   changed_when: file_perm_change.stdout
 
 - name: Configure File and Directory Ownership
-  command: 'chown -R {{ magento_sftp_user }}:{{ nginx_vhost_user }} {{ magento_document_root }}'
+  command: 'chown -R {{ magento_sftp_user }}:www-data {{ magento_document_root }}'
   args:
     chdir: '{{ magento_document_root }}'
   register: file_perm_change
@@ -55,27 +89,6 @@
     minute: "*/5"
     job: '/bin/sh {{ magento_document_root }}/cron.sh >/dev/null 2>&1'
     state: present
-
-- name: get magento crypt key
-  shell: grep -i key {{ magento_document_root }}/app/etc/env.php | awk '{print $3}' | tr -d "',"
-  register: grep_output
-  ignore_errors: true
-
-- debug:
-    var: grep_output.stdout
-
-- name: get frontname
-  shell: grep -i front {{ magento_document_root }}/app/etc/env.php | awk '{print $3}' | tr -d "',"
-  register: grep_output2
-  ignore_errors: true
-
-- debug:
-    var: grep_output2.stdout
-
-- name: move over env.php template
-  template:
-    src: 'Common/env.php.j2'
-    dest: '{{ magento_document_root }}/app/etc/env.php'
 
 - name: Start Redis
   service:
