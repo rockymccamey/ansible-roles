@@ -1,7 +1,7 @@
 ---
 - name: Stop PHP-FPM service
   service:
-    name: '{{ phpfpm_service }}'
+    name: php7.0-fpm
     state: stopped
 
 - name: Ensure Magento User exists
@@ -16,7 +16,7 @@
 
 - name: Start PHP-FPM service
   service:
-    name: '{{ phpfpm_service }}'
+    name: php7.0-fpm
     state: started
 
 - name: Ensure Document Root Exists
