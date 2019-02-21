@@ -132,14 +132,14 @@
   changed_when: file_perm_change.stdout
 
 - name: Configure File and Directory Ownership
-  command: 'chown -R {{ magento_sftp_user }}:www-data {{ magento_document_root }}'
+  command: 'chown -R www-data:www-data {{ magento_document_root }}'
   args:
     chdir: '{{ magento_document_root }}'
   register: file_perm_change
   changed_when: file_perm_change.stdout
 
-- name: Set acl for web user
-  command: 'setfacl -Rdm g:www-data:rwx {{ magento_document_root }}'
+- name: Set acl sftp user
+  command: 'setfacl -Rdm u:magento:rwx {{ magento_document_root }}'
   register: file_perm_change
   changed_when: file_perm_change.stdout
 
