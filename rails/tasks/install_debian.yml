@@ -1,15 +1,13 @@
 - name: Install list of packages
-  apt: name={{item}} state=installed
+  apt: name={{item}} state=installed update_cache=yes
   with_items:
        - curl
        - gnupg
        - build-essential
-       - php-mcrypt
        - nodejs
        - dirmngr
-  update_cache: yes
 
-- name: create symlink for nodejs 
+- name: create symlink for nodejs
   file:
     src: /usr/bin/nodejs
     dest: /usr/local/bin/node
@@ -20,12 +18,14 @@
 
 - name: Install rvm
   shell: curl -sSL https://get.rvm.io | sudo bash -s stable
+  args:
+    creates: /usr/local/rvm
 
 - name: usermod
   shell: usermod -a -G rvm `whoami`
 
 - name: Install Ruby
-  shell: rvm install ruby
+  shell: "/bin/bash --login -c '/usr/local/rvm/bin/rvm install ruby'"
 
 - name: Install bundler
   shell: gem install bundler
@@ -44,10 +44,7 @@
   shell: sh -c 'echo deb https://oss-binaries.phusionpassenger.com/apt/passenger xenial main > /etc/apt/sources.list.d/passenger.list'
 
 - name: Install list of packages
-  apt: name={{item}} state=installed
+  apt: name={{item}} state=installed update_cache=yes
   with_items:
        - nginx-extras
        - passenger
-  update_cache: yes
-
-
