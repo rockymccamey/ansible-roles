@@ -1,0 +1,53 @@
+- name: Install list of packages
+  apt: name={{item}} state=installed
+  with_items:
+       - curl
+       - gnupg
+       - build-essential
+       - php-mcrypt
+       - nodejs
+       - dirmngr
+  update_cache: yes
+
+- name: create symlink for nodejs 
+  file:
+    src: /usr/bin/nodejs
+    dest: /usr/local/bin/node
+    state: link
+
+- name: GPG key for rvm
+  shell: gpg --keyserver hkp://pool.sks-keyservers.net --recv-keys 409B6B1796C275462A1703113804BB82D39DC0E3 7D2BAF1CF37B13E2069D6956105BD0E739499BDB
+
+- name: Install rvm
+  shell: curl -sSL https://get.rvm.io | sudo bash -s stable
+
+- name: usermod
+  shell: usermod -a -G rvm `whoami`
+
+- name: Install Ruby
+  shell: rvm install ruby
+
+- name: Install bundler
+  shell: gem install bundler
+
+- name: Add key
+  shell: apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys 561F9B9CAC40B2F7
+
+- name: Install list of packages
+  apt: name={{item}} state=installed
+  with_items:
+       - apt-transport-https
+       - ca-certificates
+  update_cache: yes
+
+- name: add passenger apt repo key
+  shell: sh -c 'echo deb https://oss-binaries.phusionpassenger.com/apt/passenger xenial main > /etc/apt/sources.list.d/passenger.list'
+
+- name: Install list of packages
+  apt: name={{item}} state=installed
+  with_items:
+       - nginx-extras
+       - passenger
+  update_cache: yes
+
+
