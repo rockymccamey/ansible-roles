@@ -6,3 +6,4 @@
   when: ansible_os_family == 'RedHat'
 
 - include: configure_common.yml
+
