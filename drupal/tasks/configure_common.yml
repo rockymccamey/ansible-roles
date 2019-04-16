@@ -34,6 +34,8 @@
     HOME: "/root"
   retries: 3
   delay: 3
+  register: result
+  until: result | success
   when: ansible_distribution_release == 'xenial' or ansible_distribution_release == 'bionic'
 
 - name: Download Drupal
@@ -44,6 +46,8 @@
     HOME: "/root"
   retries: 3
   delay: 3
+  register: result
+  until: result | success
   when: ansible_distribution_release == 'trusty' or ansible_distribution == 'CentOS'
 
 - name: Install Drupal
