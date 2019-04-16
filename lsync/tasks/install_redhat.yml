@@ -10,3 +10,8 @@
   - gcc
   - asciidoc
   - lsyncd
+
+- name: Create defaults
+  template:
+    src: 'Common/lsyncd.j2'
+    dest: '/etc/sysconfig/lsyncd'
