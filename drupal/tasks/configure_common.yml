@@ -32,6 +32,8 @@
     chdir: '{{ nginx_vhost_root }}/{{ drupal_domain }}'
   environment:
     HOME: "/root"
+  retries: 3
+  delay: 3
   when: ansible_distribution_release == 'xenial' or ansible_distribution_release == 'bionic'
 
 - name: Download Drupal
@@ -40,6 +42,8 @@
     chdir: '{{ nginx_vhost_root }}/{{ drupal_domain }}'
   environment:
     HOME: "/root"
+  retries: 3
+  delay: 3
   when: ansible_distribution_release == 'trusty' or ansible_distribution == 'CentOS'
 
 - name: Install Drupal
@@ -53,8 +57,6 @@
     chdir: '{{ nginx_vhost_root }}/{{ drupal_domain }}/httpdocs'
   environment:
     HOME: "/root"
-  retries: 3
-  delay: 3
   when: ansible_distribution_release == 'xenial' or ansible_distribution_release == 'bionic'
 
 - name: Install Drupal
@@ -68,8 +70,6 @@
     chdir: '{{ nginx_vhost_root }}/{{ drupal_domain }}/httpdocs/web/sites/default'
   environment:
     HOME: "/root"
-  retries: 3
-  delay: 3
   when: ansible_distribution_release == 'trusty' or ansible_distribution == 'CentOS'
 
 - name: Enforce permissions
