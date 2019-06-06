@@ -13,3 +13,19 @@
     backup: yes
     dest: ~root/.my.cnf
     src: my.cnf.j2
+
+- name: enable REMI safe
+  yum_repository:
+    name: remi
+    description: REMI YUM repo
+    baseurl: http://rpms.remirepo.net/enterprise/remi-release-7.rpm
+
+- name: disable php54
+  command: yum-config-manager --disable remi-php54
+  args:
+    warn: no 
+
+- name: enable php73
+  command: yum-config-manager --enable remi-php73
+  args:
+    warn: no
