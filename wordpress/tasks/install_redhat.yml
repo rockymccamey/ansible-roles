@@ -14,11 +14,10 @@
     dest: ~root/.my.cnf
     src: my.cnf.j2
 
-- name: enable REMI safe
-  yum_repository:
-    name: remi
-    description: REMI YUM repo
-    baseurl: http://rpms.remirepo.net/enterprise/remi-release-7.rpm
+- name: enable remi
+  command: yum install http://rpms.remirepo.net/enterprise/remi-release-7.rpm
+  args:
+    warn: no
 
 - name: disable php54
   command: yum-config-manager --disable remi-php54
