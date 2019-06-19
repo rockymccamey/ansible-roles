@@ -15,7 +15,7 @@
     src: my.cnf.j2
 
 - name: enable remi
-  command: yum install http://rpms.remirepo.net/enterprise/remi-release-7.rpm
+  command: yum install http://rpms.remirepo.net/enterprise/remi-release-7.rpm -y
   args:
     warn: no
 
