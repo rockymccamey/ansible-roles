@@ -35,4 +35,4 @@
     enabled: yes
 
 - include: nopasswordauth.yaml
-  when: passauth == 'False'
+  when: passauth == 'True'
