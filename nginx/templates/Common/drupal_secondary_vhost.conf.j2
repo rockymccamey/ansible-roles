@@ -31,7 +31,7 @@ server {
   {% endif %}
 # define the root directory of your site and index files.
   location / {
-    root   {{ item.doc_root }};
+    root   {{ item.doc_root }}/web;
     index  index.php index.html index.htm;
     try_files $uri /index.php?$query_string;
     proxy_set_header Host {{ item.name }};
