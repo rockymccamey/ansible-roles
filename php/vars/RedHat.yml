@@ -1,6 +1,5 @@
 ---
 php_modules:
-  - php
   - php-fpm
   - php-devel
   - php-imap
