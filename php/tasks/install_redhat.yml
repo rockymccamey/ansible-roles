@@ -10,7 +10,7 @@
     warn: no
 
 - name: enable php73
-  command: yum-config-manager --enable remi-php72
+  command: yum-config-manager --enable remi-php73
   args:
     warn: no
 
