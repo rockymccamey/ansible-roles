@@ -14,7 +14,7 @@ php_modules:
   - php73-pecl-redis
   - php73-pecl-memcached
   - php73-opcache
-  - libmcrypt
+  - libmcrypt-devel
 
 php_modules_config:
   - src: php.ini.j2
