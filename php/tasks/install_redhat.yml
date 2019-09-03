@@ -8,6 +8,12 @@
     state: present
   with_items: "{{ php_modules }}"
 
+- name: ensure /opt/pecl exists
+  file:
+    path: /opt/pecl
+    state: directory
+    mode: '0755'
+
 - name: download pecl
   get_url:
     url: http://pear.php.net/go-pear.phar
