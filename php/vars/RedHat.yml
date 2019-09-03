@@ -5,16 +5,15 @@ php_modules:
   - php73-imap
   - php73-pdo
   - php73-gd
-  - php73-mysql
-  - php73-mcrypt
+  - php73-mysqlnd
   - php73-xml
   - php73-xmlrpc
   - php73-soap
   - php73-mbstring
   - php73-pecl-lzf
   - php73-pecl-redis
-  - php73-pecl-memcache
-  - php73-pecl-zendopcache
+  - php73-pecl-memcached
+  - php73-opcache
 
 php_modules_config:
   - src: php.ini.j2

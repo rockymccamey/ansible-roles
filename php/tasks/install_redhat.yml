@@ -7,3 +7,18 @@
     name: "{{ item }}"
     state: present
   with_items: "{{ php_modules }}"
+
+- name: download pecl
+  get_url:
+    url: http://pear.php.net/go-pear.phar
+    dest: /opt/pecl/go-pear.phar
+
+- name: Install pecl
+  shell: php /opt/pecl/go-pear.phar
+  args:
+    executable: /bin/bash
+
+- name: Install mcrypt
+  shell: pecl install mcrypt-1.0.2
+  args:
+    executable: /bin/bash
