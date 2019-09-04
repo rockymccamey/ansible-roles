@@ -8,10 +8,11 @@
        - mariadb
        - MySQL-python
 
-- name: Install PHPMyAdmin
-  yum:
-    name: phpmyadmin
-    state: present
+- name: Install phpmyadmin
+  yum: name={{item}} state=installed
+  with_items:
+       - phpMyAdmin49-nginx
+       - phpMyAdmin49-httpd
 
 - name: Create symlink for PHPMyAdmin
   file:
