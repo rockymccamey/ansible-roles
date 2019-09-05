@@ -29,8 +29,3 @@
   args:
     executable: /bin/bash
 
-- name: enable mcrypt extension
-  lineinfile:
-    path: /etc/php.ini
-    insertafter: EOF
-    line: extension=mcrypt.so
