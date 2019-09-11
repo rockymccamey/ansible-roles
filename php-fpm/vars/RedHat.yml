@@ -12,21 +12,20 @@ phpfpm_confdir: ''
 phpfpm_service: 'php-fpm'
 
 phpfpm_pkgs: [
-"php-fpm",
-"php-devel",
-"php-imap",
-"php-pdo",
-"php-gd",
-"php-mysql",
-"php-mcrypt",
-"php-xml",
-"php-xmlrpc",
-"php-soap",
-"php-mbstring",
-"php-pecl-lzf",
-"php-pecl-redis",
-"php-pecl-memcache",
-"php-pecl-zendopcache"
+"php73-fpm",
+"php73-devel",
+"php73-imap",
+"php73-pdo",
+"php73-gd",
+"php73-mysqlnd",
+"php73-xml",
+"php73-xmlrpc",
+"php73-soap",
+"php73-mbstring",
+"php73-pecl-lzf",
+"php73-pecl-redis",
+"php73-pecl-memcached",
+"php73-opcache"
 ]
 
 phpfpm_modules_config_root: '/etc/php.d'
