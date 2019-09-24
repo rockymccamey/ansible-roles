@@ -1,6 +1,6 @@
 ---
 phpfpm_config: [
-{ src: 'Common/php-fpm.conf.j2', dest: '/etc/php-fpm.conf' },
+{ src: 'Common//php-fpm.conf.j2', dest: '/etc/php-fpm.conf' },
 { src: 'Common/www.conf.j2', dest: '{{ phpfpm_root }}/www.conf' },
 { src: 'php.ini.j2', dest: '/etc/php.ini' },
 { src: 'opcachecent.ini.j2', dest: '{{ phpfpm_modules_config_root }}/opcache.ini' },
@@ -12,21 +12,20 @@ phpfpm_confdir: ''
 phpfpm_service: 'php-fpm'
 
 phpfpm_pkgs: [
-"php-fpm",
-"php-devel",
-"php-imap",
-"php-pdo",
-"php-gd",
-"php-mysql",
-"php-mcrypt",
-"php-xml",
-"php-xmlrpc",
-"php-soap",
-"php-mbstring",
-"php-pecl-lzf",
-"php-pecl-redis",
-"php-pecl-memcache",
-"php-pecl-zendopcache"
+"{{ phpfpm_vers }}-fpm",
+"{{ phpfpm_vers }}-devel",
+"{{ phpfpm_vers }}-imap",
+"{{ phpfpm_vers }}-pdo",
+"{{ phpfpm_vers }}-gd",
+"{{ phpfpm_vers }}-mysqlnd",
+#"{{ phpfpm_vers }}-mcrypt",
+"{{ phpfpm_vers }}-xml",
+"{{ phpfpm_vers }}-xmlrpc",
+"{{ phpfpm_vers }}-soap",
+"{{ phpfpm_vers }}-mbstring",
+"{{ phpfpm_vers }}-pecl-lzf",
+"{{ phpfpm_vers }}-pecl-redis",
+"{{ phpfpm_vers }}-pecl-memcached",
 ]
 
 phpfpm_modules_config_root: '/etc/php.d'
