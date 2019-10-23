@@ -9,7 +9,7 @@
   shell: 'composer global require drush/drush:8.*'
   environment:
     COMPOSER_HOME: '/usr/share/composer'
-  when: ansible_distribution_release == 'trusty' or ansible_distribution_release == 'bionic' or ansible_distribution == 'CentOS'
+  when: ansible_distribution == 'CentOS'
 
 - name: Link Drush to /usr/local/bin/drush
   file:
@@ -27,7 +27,7 @@
   when: ansible_distribution_release == 'xenial' or ansible_distribution_release == 'bionic'
 
 - name: Download Drupal
-  shell: composer create-project drupal-composer/drupal-project:8.x-dev httpdocs --stability dev --no-interaction
+  shell: composer create-project drupal-composer/drupal-project:8.x-dev httpdocs --no-interaction
   args:
     chdir: '{{ nginx_vhost_root }}/{{ drupal_domain }}'
   environment:
@@ -39,7 +39,7 @@
   when: ansible_distribution_release == 'xenial' or ansible_distribution_release == 'bionic'
 
 - name: Download Drupal
-  shell: composer create-project drupal-composer/drupal-project:7.x-dev httpdocs --stability dev --no-interaction
+  shell: composer create-project drupal-composer/drupal-project:7.x-dev httpdocs --no-interaction
   args:
     chdir: '{{ nginx_vhost_root }}/{{ drupal_domain }}'
   environment:
