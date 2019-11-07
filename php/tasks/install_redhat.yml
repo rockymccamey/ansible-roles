@@ -1,4 +1,18 @@
 ---
+
+- name: Ensure PHP-FPM is installed from IUS
+  yum:
+    name: "{{ phpfpm_vers }}-fpm"
+    state: present
+
+- name: Install PHP
+  yum:
+    name: "{{ phpfpm_vers }}-cli"
+    state: present
+
+- name: Include RedHat Vars
+  include_vars: RedHat.yml
+
 - name: Include RedHat Vars
   include_vars: RedHat.yml
 

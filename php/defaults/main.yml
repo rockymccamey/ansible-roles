@@ -1,2 +1,4 @@
 ---
 tz: 'America/Chicago'
+
+phpfpm_vers: "php73"

@@ -1,21 +1,21 @@
 ---
-php_modules:
-  - php
-  - php-fpm
-  - php-devel
-  - php-imap
-  - php-pdo
-  - php-gd
-  - php-mysql
-  - php-mcrypt
-  - php-xml
-  - php-xmlrpc
-  - php-soap
-  - php-mbstring
-  - php-pecl-lzf
-  - php-pecl-redis
-  - php-pecl-memcache
-  - php-pecl-zendopcache
+php_modules: [
+"{{ phpfpm_vers }}-fpm",
+"{{ phpfpm_vers }}-devel",
+"{{ phpfpm_vers }}-imap",
+"{{ phpfpm_vers }}-pdo",
+"{{ phpfpm_vers }}-gd",
+"{{ phpfpm_vers }}-mysqlnd",
+#"{{ phpfpm_vers }}-mcrypt",
+"{{ phpfpm_vers }}-xml",
+"{{ phpfpm_vers }}-xmlrpc",
+"{{ phpfpm_vers }}-soap",
+"{{ phpfpm_vers }}-mbstring",
+"{{ phpfpm_vers }}-pecl-lzf",
+"{{ phpfpm_vers }}-pecl-redis",
+"{{ phpfpm_vers }}-pecl-memcached",
+"mod_php73"
+]
 
 php_modules_config:
   - src: php.ini.j2
