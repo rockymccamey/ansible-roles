@@ -6,6 +6,7 @@ php_modules: [
 "{{ phpfpm_vers }}-pdo",
 "{{ phpfpm_vers }}-gd",
 "{{ phpfpm_vers }}-mysqlnd",
+"{{ phpfpm_vers }}-opcache",
 #"{{ phpfpm_vers }}-mcrypt",
 "{{ phpfpm_vers }}-xml",
 "{{ phpfpm_vers }}-xmlrpc",
