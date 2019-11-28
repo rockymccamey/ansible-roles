@@ -11,6 +11,14 @@
     dest: "{{ item.dest }}"
   with_items: "{{ php_modules_config }}"
 
+- name: Optimize opcache module
+  ini_file:
+    dest: "{{ php_modules_config_root }}/opcache.ini"
+    section: null
+    option: opcache.memory_consumption
+    value: "{{ php_opcache_memory_consumption }}"
+    state: present
+
 - name: Restart Apache
   service:
     name: "{{ apache_pkg }}"
