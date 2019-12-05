@@ -1,4 +1,6 @@
 ---
+tz: 'Etc/UTC'
+
 phpfpm_start_servers: 20
 phpfpm_min_spare_servers: 20
 phpfpm_max_spare_servers: 30

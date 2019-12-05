@@ -2,3 +2,5 @@
 tz: 'America/Chicago'
 
 phpfpm_vers: "php73"
+
+php_opcache_memory_consumption: "256"

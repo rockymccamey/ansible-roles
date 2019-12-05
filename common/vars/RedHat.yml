@@ -2,6 +2,6 @@
 common_packages:
   - libselinux-python
   - epel-release
-  - ntp
+  - chrony
 
-ntp_service: ntpd
+ntp_service: chronyd
