@@ -1,8 +1,32 @@
 ---
-- include: install_debian.yml
+
+- name: Tune system for Redis
+  include: system_tuning.yml
+  when: redis_system_tuning
+
+- name: Install for Debian
+  include: install_debian.yml
   when: ansible_os_family == 'Debian'
 
-- include: install_redhat.yml
+- name: Install for RHEL
+  include: install_redhat.yml
   when: ansible_os_family == 'RedHat'
 
-- include: configure_common.yml
+- name: Enable Redis
+  service:
+    name: redis
+    enabled: yes
+
+- name: Write Redis configuration
+  template:
+    src: Common/redis.conf.j2
+    dest: "{{redis_config_path}}/redis.conf"
+    owner: redis
+    group: root
+    mode: 0644
+
+- name: Restart redis
+  service:
+    name: redis
+    state: restarted
+
