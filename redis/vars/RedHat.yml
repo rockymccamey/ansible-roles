@@ -1,2 +1,3 @@
 ---
-redis_rclocal: '/etc/rc.d/rc.local'
+
+redis_config_path: /etc

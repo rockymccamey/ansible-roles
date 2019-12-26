@@ -1,5 +1,6 @@
 ---
 - hosts: localhost
+  user: rack
+  become: True
   roles:
-    - nginx
-    - parse
+    - redis
