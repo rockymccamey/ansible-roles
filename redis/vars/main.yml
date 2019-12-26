@@ -1,4 +1,0 @@
----
-redis_maxmemory: 4gb
-# 'allkeys-lru' or 'volatile-lru' ?
-redis_maxmemory_policy: volatile-lru

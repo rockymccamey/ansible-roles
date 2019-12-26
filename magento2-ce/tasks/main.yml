@@ -1,113 +1,70 @@
----
-- name: Create Document Root
+
+- name: Check if composer files are present
+  command: 'stat {{ magento_document_root }}'
+  register: magento_present
+  ignore_errors: yes
+
+- name: Set repo.magento.com composer keys
+  shell: 'composer config --global http-basic.repo.magento.com b2f5cba61c010a8eb9e563dc7f031db2 842ab5320d751c878cdc488f3e5ddf6a'
+  environment:
+    HOME: "/root"
+  when: magento_present is failed
+
+- name: download magento with composer
+  shell: 'composer create-project --repository=https://repo.magento.com/ magento/project-community-edition {{ magento_document_root }}'
+  environment:
+    HOME: "/root"
+  when: magento_present is failed
+
+- name: Assign random password for Magento admin user
+  set_fact:
+    magento_admin_password: "{{ lookup('password', '~/magento_admin_password length=24')}}"
+
+- name: Assign random path for Magento admin URL
+  set_fact:
+    magento_admin_url: "{{ lookup('password', '~/magento_admin_url chars=ascii_letters,digits length=24')}}"
+    
+- name: install Magento
+  command: "{{ magento_install_cmd }}"
+  args:
+    chdir: '/var/www/vhosts/magento'
+
+- name: compile static Magento
+  command: 'php -d set_time_limit=7200 -d memory_limit=2048M bin/magento setup:di:compile'
+  args:
+    chdir: '/var/www/vhosts/magento'
+
+- name: Install Magento cron job
+  command: 'php -dmemory_limit=1G bin/magento cron:install'
+  args:
+    chdir: '/var/www/vhosts/magento'
+  ignore_errors: yes
+
+- name: Ensure web directories have correct owner, group, and mode
   file:
-    path: '{{ magento_document_root }}'
     state: directory
-    mode: 0755
+    recurse: yes
+    owner: "{{ magento_os_user }}"
+    group: "{{ magento_os_group }}"
+    path: "{{ magento_document_root }}"
+    mode: 'u=rwX,g=rwX,o=rX'
 
-- name: Create Magento SFTP User
-  user:
-    name: '{{ magento_sftp_user }}'
-    home: '{{ magento_document_root }}'
-    password: '{{ magento_sftp_password | password_hash("sha512") }}'
-    comment: '{{ magento_vhost_domain }}'
+- name: Configure Directory Level Permissions for media
+  command: "{{ find_dirs_cmd }}"
+  args:
+    chdir: "{{ magento_document_root }}"
+  register: file_perm_change
+  changed_when: file_perm_change.stdout
 
-- name: Reload Nginx
-  service:
-    name: nginx
-    state: reloaded
-
-- name: Download Magento
-  get_url:
-    url: 'https://3fb66be59b12e2b636cf-d69d20d277a755fdadf91611975f2510.ssl.cf5.rackcdn.com/magento-{{ magento_version }}.tar.gz'
-    dest: '{{ magento_document_root }}'
-    owner: '{{ magento_sftp_user }}'
-    group: '{{ nginx_vhost_user }}'
-    validate_certs: no
-  when: not (magento_sample_content == 'True')
-
-- name: Download Sample Content
-  get_url:
-    url: "https://3fb66be59b12e2b636cf-d69d20d277a755fdadf91611975f2510.ssl.cf5.rackcdn.com/magento-sample-data-{{ magento_sample_content_version }}.tar.gz"
-    dest: '{{ magento_document_root }}'
-    owner: '{{ magento_sftp_user }}' 
-    group: '{{ nginx_vhost_user }}'
-    validate_certs: no
-  when: magento_sample_content == 'True'
-
-- name: Unpack Magento
-  unarchive:
-    src: '{{ magento_document_root }}/magento-{{ magento_version }}.tar.gz'
-    dest: '{{ magento_document_root }}'
-    copy: no
-  when: not (magento_sample_content == 'True')
-
-- name: Unpack Sample Content
-  unarchive:
-    src: '{{ magento_document_root }}/magento-sample-data-{{ magento_version }}.tar.gz'
-    dest: '{{ magento_document_root }}'
-    copy: no
-  when: magento_sample_content == 'True'
-
-- name: Configure .my.cnf
-  template:
-    src: 'Common/.my.cnf.j2'
-    dest: '/root/.my.cnf'
-    owner: root
-    group: root
-    mode: 0600
-
-- name: Delete Garbage Files
-  file:
-    path: '{{ magento_document_root }}/{{ item }}'
-    state: absent
+- name: Ensure sftp user has access to Magento dirs
+  acl:
+    path: "{{ magento_document_root }}"
+    entity: sftp
+    etype: user
+    permissions: rwx
+    default: "{{ item }}"
+    state: present
+    recursive: yes
   with_items:
-    magento_garbage_files
-
-- name: Configure Directory Ownership and Permissions
-  file:
-    path: '{{ magento_document_root }}'
-    owner: '{{ magento_sftp_user }}'
-    group: '{{ nginx_vhost_user }}'
-    mode: 0755
-    state: directory
-    recurse: yes
-
-- name: Configure File Level Permissions
-  command: 'find . -type f -exec chmod 644 {} ";"'
-  args:
-    chdir: '{{ magento_document_root }}'
-  register: file_perm_change
-  changed_when: file_perm_change.stdout
-
-- name: Set Magento as executable
-  file:
-    path: '{{ magento_document_root }}/bin/magento'
-    mode: 0500
-    state: file
-
-- name: "Run Magento setup:install"
-  command: 'bin/magento setup:install --admin-firstname="{{ magento_admin_fname}}" --admin-lastname="{{ magento_admin_lname }}" --admin-email="{{ magento_admin_email }}" --admin-user="{{ magento_admin_user}}" --admin-password="{{ magento_admin_pass }}" --base-url="http://{{ magento_vhost_domain }}/" --db-host="{{ mysql_host_ip }}" --db-name="{{ magento_db_name }}" --db-user="{{ magento_db_user }}" --db-password="{{ magento_db_password }}" --session-save="{{ magento_session }}" --use-secure="1" --backend-frontname="{{ magento_admin_url }}"'
-  args:
-    chdir: "{{ magento_document_root }}"
-
-- name: "Run Magento setup:static-content:deploy"
-  command: 'bin/magento setup:static-content:deploy'
-  args:
-    chdir: "{{ magento_document_root }}"
-
-- name: Configure File Level Permissions
-  command: 'find . -type f -exec chmod 774 {} ";"'
-  args:
-    chdir: '{{ magento_document_root }}'
-  register: file_perm_change
-  changed_when: file_perm_change.stdout
-
-- name: Configure Directory Ownership and Permissions
-  file:
-    path: '{{ magento_document_root }}'
-    owner: '{{ magento_sftp_user }}'
-    group: '{{ nginx_vhost_user }}'
-    mode: 0774
-    state: directory
-    recurse: yes
+    - yes
+    - no

@@ -1,5 +1,10 @@
 ---
 - hosts: localhost
+  user: rack
+  become: true
   roles:
+    - php
     - nginx
-    - parse
+    - redis
+    - composer
+    - magento2-ce
