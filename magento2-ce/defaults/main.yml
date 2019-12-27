@@ -12,7 +12,7 @@ nginx_vhosts: [
 ]
 nginx_vhost_dir: '/etc/nginx/conf.d'
 magento_vhost_alias: ''
-tz: 'America/Chicago'
+tz: 'Etc/UTC'
 nginx_vhost_user: nginx
 magento_http_port: 80
 magento_document_root: '/var/www/vhosts/{{ magento_vhost_domain }}/httpdocs'
@@ -23,16 +23,25 @@ magento_admin_fname: Magento
 magento_admin_lname: Admin
 magento_admin_email: magento@example.com
 
-magento_db_user: magento
-magento_db_name: magento
-magento_db_password: M@g3nt0
+# Begin Linux system user vars
+
+magento_os_user: "magento"
+magento_os_group: "www-data"
+
+# Begin database vars
+
+magento_db_user: "{{ magento_os_user }}"
+magento_db_pass: ""
+magento_db_name: "{{ magento_os_user }}_db"
+magento_db_host: "b33ab0cb5a212d4e2909b49b46b031d4aca4dd62.rackspaceclouddb.com"
+magento_db_password: "cheeboapoo8U"
 
 magento_sftp_user: magento
 magento_sftp_password: M@g3nt0
 
-mysql_root_user: root
-mysql_root_password: P@$$w0rd
-mysql_host_ip: 'localhost'
+#mysql_root_user: root
+#mysql_root_password: P@$$w0rd
+#mysql_host_ip: 'localhost'
 
 magento_create_db: yes
 
@@ -46,10 +55,52 @@ magento_garbage_files:
 - RELEASE_NOTES.txt
 - LICENSE*
 
-magento_version: 2.0.0
-magento_sample_content_version: 2.0.0
+magento_version: 2.3.3
+magento_sample_content_version: 2.3.3
 magento_sample_content: no
 
 magento_install: yes
 magento_session: files
 magento_admin_url: admin
+
+magento_repo_user: "b2f5cba61c010a8eb9e563dc7f031db2"
+
+magento_repo_pass: "842ab5320d751c878cdc488f3e5ddf6a"
+
+repo_keys: "b2f5cba61c010a8eb9e563dc7f031db2 842ab5320d751c878cdc488f3e5ddf6a"
+
+find_dirs_cmd: 'find var vendor pub/static pub/media app/etc -type d -exec chmod g+ws {} ";"'
+
+redis_socket: "/var/run/redis/redis.sock"
+
+magento_install_cmd: >
+  php -dmemory_limit=1G bin/magento setup:install
+  --base-url="http://{{ my_pub_ip4 }}" 
+  --base-url-secure="https://{{ my_pub_ip4 }}" 
+  --use-secure-admin=1
+  --backend-frontname="{{ magento_admin_url }}" 
+  --db-host="{{ magento_db_host }}"
+  --db-name=magento_db 
+  --db-user=magento_db 
+  --db-password="{{ magento_db_password }}" 
+  --admin-firstname=admin 
+  --admin-lastname=admin 
+  --admin-email=admin@admin.com 
+  --admin-user=admin 
+  --admin-password="{{ magento_admin_password }}" 
+  --language=en_US 
+  --currency=USD 
+  --timezone=UTC 
+  --sales-order-increment-prefix="ORD$" 
+  --cache-backend=redis 
+  --cache-backend-redis-server="{{ redis_socket }}" 
+  --cache-backend-redis-db=0 
+  --page-cache=redis 
+  --page-cache-redis-server="{{ redis_socket }}"  
+  --page-cache-redis-db=1 
+  --session-save=redis 
+  --session-save-redis-host="{{redis_socket}}" 
+  --session-save-redis-db=2 
+  --skip-db-validation 
+  --use-rewrites=1
+  

@@ -3,4 +3,8 @@
   user: rack
   become: True
   roles:
+    - php
+    - nginx
     - redis
+    - composer
+    - magento2-ce
