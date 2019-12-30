@@ -33,8 +33,8 @@ magento_os_group: "www-data"
 magento_db_user: "{{ magento_os_user }}"
 magento_db_pass: ""
 magento_db_name: "{{ magento_os_user }}_db"
-magento_db_host: "b33ab0cb5a212d4e2909b49b46b031d4aca4dd62.rackspaceclouddb.com"
-magento_db_password: "cheeboapoo8U"
+#magento_db_host: "b33ab0cb5a212d4e2909b49b46b031d4aca4dd62.rackspaceclouddb.com"
+#magento_db_password: "cheeboapoo8U"
 
 magento_sftp_user: magento
 magento_sftp_password: M@g3nt0
@@ -81,7 +81,7 @@ magento_install_cmd: >
   --backend-frontname="{{ magento_admin_url }}" 
   --db-host="{{ magento_db_host }}"
   --db-name=magento_db 
-  --db-user=magento_db 
+  --db-user=magento 
   --db-password="{{ magento_db_password }}" 
   --admin-firstname=admin 
   --admin-lastname=admin 

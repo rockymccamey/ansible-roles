@@ -4,6 +4,7 @@
   become: True
   roles:
     - php
+    - php-fpm
     - nginx
     - redis
     - composer

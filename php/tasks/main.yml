@@ -13,7 +13,7 @@
 
 - name: Optimize opcache module
   ini_file:
-    dest: "{{ php_modules_config_root }}/opcache.ini"
+    dest: "{{ php_modules_config_root }}/10-opcache.ini"
     section: null
     option: opcache.memory_consumption
     value: "{{ php_opcache_memory_consumption }}"
