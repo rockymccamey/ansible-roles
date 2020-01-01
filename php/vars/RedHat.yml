@@ -22,8 +22,8 @@ php_modules: [
 php_modules_config:
   - src: php.ini.j2
     dest: /etc/php.ini
- - src: opcache.ini.j2
-   dest: "{{ php_modules_config_root }}/10-opcache.ini"
+  - src: opcache.ini.j2
+    dest: "{{ php_modules_config_root }}/10-opcache.ini"
 #  - src: redis.ini.j2
 #    dest: "{{ php_modules_config_root }}/redis.ini"
 
