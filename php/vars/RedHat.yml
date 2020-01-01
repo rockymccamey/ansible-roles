@@ -1,13 +1,14 @@
 ---
 php_modules: [
+"{{ phpfpm_vers }}-bcmath",
 "{{ phpfpm_vers }}-fpm",
 "{{ phpfpm_vers }}-devel",
 "{{ phpfpm_vers }}-imap",
+"{{ phpfpm_vers }}-intl",
 "{{ phpfpm_vers }}-pdo",
 "{{ phpfpm_vers }}-gd",
 "{{ phpfpm_vers }}-mysqlnd",
 "{{ phpfpm_vers }}-opcache",
-#"{{ phpfpm_vers }}-mcrypt",
 "{{ phpfpm_vers }}-xml",
 "{{ phpfpm_vers }}-xmlrpc",
 "{{ phpfpm_vers }}-soap",
@@ -21,9 +22,9 @@ php_modules: [
 php_modules_config:
   - src: php.ini.j2
     dest: /etc/php.ini
-#  - src: opcache.ini.j2
-#    dest: "{{ php_modules_config_root }}/opcache.ini"
-  - src: redis.ini.j2
-    dest: "{{ php_modules_config_root }}/redis.ini"
+ - src: opcache.ini.j2
+   dest: "{{ php_modules_config_root }}/10-opcache.ini"
+#  - src: redis.ini.j2
+#    dest: "{{ php_modules_config_root }}/redis.ini"
 
 php_modules_config_root: /etc/php.d

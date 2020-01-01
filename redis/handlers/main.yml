@@ -1,4 +1,15 @@
 ---
-- name: restart redis
-  service: state=restarted name=redis-{{item.name}} enabled=yes
-  with_items: "{{ redis_instances }}"
+- name: Reload Systemd
+  systemd:
+    daemon_reload: yes
+
+- name: Start Redis
+  service:
+    name: redis
+    state: started
+
+- name: Restart Redis
+  service:
+    name: redis
+    state: restarted
+
