@@ -1,6 +1,5 @@
 ---
 php_modules: [
-#"{{ phpfpm_vers }}-composer",
 "{{ phpfpm_vers }}-bcmath",
 "{{ phpfpm_vers }}-fpm",
 "{{ phpfpm_vers }}-devel",
@@ -10,8 +9,6 @@ php_modules: [
 "{{ phpfpm_vers }}-gd",
 "{{ phpfpm_vers }}-mysqlnd",
 "{{ phpfpm_vers }}-opcache",
-#"{{ phpfpm_vers }}-mcrypt",
-"{{ phpfpm_vers }}-sodium",
 "{{ phpfpm_vers }}-xml",
 "{{ phpfpm_vers }}-xmlrpc",
 "{{ phpfpm_vers }}-soap",
@@ -25,8 +22,8 @@ php_modules: [
 php_modules_config:
   - src: php.ini.j2
     dest: /etc/php.ini
-#  - src: opcache.ini.j2
-#    dest: "{{ php_modules_config_root }}/opcache.ini"
+ - src: opcache.ini.j2
+   dest: "{{ php_modules_config_root }}/10-opcache.ini"
 #  - src: redis.ini.j2
 #    dest: "{{ php_modules_config_root }}/redis.ini"
 
