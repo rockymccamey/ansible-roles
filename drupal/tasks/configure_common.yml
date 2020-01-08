@@ -3,7 +3,7 @@
   shell: 'composer global require drush/drush:9.*'
   environment:
     COMPOSER_HOME: '/usr/share/composer'
-  when: ansible_distribution_release == 'xenial' or ansible_distribution_release == 'bionic'
+  when: ansible_distribution_release == 'xenial' or ansible_distribution_release == 'bionic' or ansible_distribution_release == 'stretch'
 
 - name: Install Drush
   shell: 'composer global require drush/drush:8.*'
@@ -24,7 +24,7 @@
        - php-mbstring
        - mariadb-client
        - python-mysqldb
-  when: ansible_distribution_release == 'xenial' or ansible_distribution_release == 'bionic'
+  when: ansible_distribution_release == 'xenial' or ansible_distribution_release == 'bionic' or ansible_distribution_release == 'stretch'
 
 - name: Download Drupal
   shell: composer create-project drupal-composer/drupal-project:8.x-dev httpdocs --stability dev --no-interaction
@@ -36,7 +36,7 @@
   delay: 3
   register: result
   until: result | success
-  when: ansible_distribution_release == 'xenial' or ansible_distribution_release == 'bionic'
+  when: ansible_distribution_release == 'xenial' or ansible_distribution_release == 'bionic' or ansible_distribution_release == 'stretch'
 
 - name: Download Drupal
   shell: composer create-project drupal-composer/drupal-project:7.x-dev httpdocs --stability dev --no-interaction
@@ -61,7 +61,7 @@
     chdir: '{{ nginx_vhost_root }}/{{ drupal_domain }}/httpdocs'
   environment:
     HOME: "/root"
-  when: ansible_distribution_release == 'xenial' or ansible_distribution_release == 'bionic'
+  when: ansible_distribution_release == 'xenial' or ansible_distribution_release == 'bionic' or ansible_distribution_release == 'stretch'
 
 - name: Install Drupal
   shell:
