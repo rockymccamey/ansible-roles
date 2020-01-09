@@ -5,7 +5,7 @@
 
 - name: Include Debian Vars
   include_vars: Ubuntu1604.yml
-  when: ansible_distribution_release == 'xenial'
+  when: ansible_distribution_release == 'xenial' or ansible_distribution_release == 'stretch'
 
 - name: Include Debian Vars
   include_vars: Ubuntu1804.yml
@@ -32,4 +32,4 @@
 - name: Enable PHP Modules
   shell: "phpenmod {{ item }} "
   with_items: "{{ php_modules_enable }}"
-  when: ansible_distribution_release == 'xenial'
+  when: ansible_distribution_release == 'xenial' or ansible_distribution_release == 'stretch'
